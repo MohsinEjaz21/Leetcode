@@ -5,10 +5,10 @@ import java.util.LinkedList;
 public class BFSImpl {
 
 	List<LinkedList<Integer>> adjList;
-	int noOfvertex;
+	int vertexSize;
 
 	public BFSImpl(int vertexSize) {
-		noOfvertex = vertexSize;
+		this.vertexSize = vertexSize;
 		adjList = new ArrayList<>(vertexSize);
 		int i = 0;
 		while (i < vertexSize) {
@@ -29,36 +29,36 @@ public class BFSImpl {
 
 	void traverseGraphBFS(int source) {
 
-		//	Create Queue to track the adj nodes
-		Queue<Integer> q = new LinkedList<>();
-
-		// create the boolean of nodes size of initaly false
-		boolean[] visited = new boolean[noOfvertex];
-
-		// add source into queue
-		// define source as visited
-
+		// edge cases conditions 
+		// is node already visited
+		// is queue is empty;
+		
+		// key things
+		// visited , Queue 
+	
+		boolean[] visited = new boolean[vertexSize];
+		Queue<Integer> q=  new LinkedList<>();
+		
 		q.add(source);
-
 		visited[source] = true;
 		
-		// check wheter que is empty
 		while(!q.isEmpty()) {
 			
-			// pick the first node of the queue
-			int fNode = q.poll();
-			System.out.print(source+" ");
+			int currNode = q.poll();
+			System.out.print(currNode+" ");
 
-			// find the adjList of the node
-			Iterator<Integer> adjIterator = adjList.get(fNode).iterator();
-			while (adjIterator.hasNext()) {
-				if(!visited[fNode]) {
-					visited[fNode]= true;
-					q.add(adjIterator.next());
+			Iterator<Integer> adjs = adjList.get(currNode).iterator();
+			while(adjs.hasNext()) {
+				int n = adjs.next();
+				if(!visited[n]) {
+					visited[n] = true;
+					q.add(n);
 				}
 			}
 		}
-
+		
+	
+	
 	}
 
 	public static void main(String[] args) {
