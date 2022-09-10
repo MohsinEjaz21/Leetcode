@@ -27,7 +27,7 @@ public class BFSImpl {
 		adjList.get(destination).add(source);
 	}
 
-	void traverseGraphBFS(int source) {
+	void traverseGraphBFS(int source, int destination) {
 
 		// edge cases conditions 
 		// is node already visited
@@ -44,12 +44,13 @@ public class BFSImpl {
 		
 		while(!q.isEmpty()) {
 			
-			int currNode = q.poll();
+			int currNode = q.poll();					
 			System.out.print(currNode+" ");
 
 			Iterator<Integer> adjs = adjList.get(currNode).iterator();
 			while(adjs.hasNext()) {
 				int n = adjs.next();
+
 				if(!visited[n]) {
 					visited[n] = true;
 					q.add(n);
@@ -71,7 +72,7 @@ public class BFSImpl {
 		graph.addEdgesBothWays(0, 4);
 		graph.addEdgesBothWays(2, 4);
 
-		graph.traverseGraphBFS(0);
+		graph.traverseGraphBFS(0,3);
 
 	}
 
