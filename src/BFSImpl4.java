@@ -40,36 +40,53 @@ public class BFSImpl4 {
 	  }
 	}
 	
-	 void traverseFromSource(String startNode) {
+	 void traverseFromSource(String startNode, String endNode) {
 		Queue<String> q = new LinkedList<>();
 		HashMap<String, Integer> distance = new HashMap<>();
+		HashMap<String, String> path = new HashMap<>();
+		StringBuilder pathBuilder = new StringBuilder();
+		
 		q.add(startNode);
 		distance.put(startNode, 0);
 		while(!q.isEmpty()) {
-			
+			System.out.println("QUEUE :: "+q);
+
 			String currNode = q.poll();
-			System.out.println("currNode :: "+currNode);
-			List<Node> adjList = adjListMap.get(currNode);
-			
+//			System.out.println("currNode :: "+currNode);
+			List<Node> adjList = adjListMap.get(currNode);			
+			pathBuilder.append(currNode).append(" ");
+
 			for(Node neighborNode : adjList) {
 
 				if(distance.containsKey(neighborNode.node)) {
+//					System.out.println("currNode :: "+currNode);
+//					System.out.println("neighbourNode :: "+neighborNode.node);
+
 					int newDistance = distance.get(currNode) + neighborNode.cost;
 					Integer prevDistance =  distance.get(neighborNode.node);
 					if(prevDistance != null && newDistance < prevDistance) {
 						distance.put(neighborNode.node, newDistance);
+						path.put(neighborNode.node, pathBuilder.toString());
 					}
+
 			  }
 				else if(!distance.containsKey(neighborNode.node)) {
+					
+//					System.out.println("=> currNode :: "+currNode);
+//					System.out.println("=> neighbourNode :: "+neighborNode.node);
+
 					q.add(neighborNode.node);
 					int newDistance = distance.get(currNode) + neighborNode.cost;
 					distance.put(neighborNode.node, newDistance);
+					path.put(currNode, pathBuilder.toString());
 				}
 			}
+			
 		}
 		
 		for(Entry<String,Integer> d: distance.entrySet()) {
-			 System.out.println( d.getKey() +":"+ d.getValue() );
+//			path.get(d.getKey()) 
+			 System.out.println( d.getKey() +":"+ d.getValue()+" ");
 		}
 		
 		
@@ -81,11 +98,11 @@ public class BFSImpl4 {
 		graph.addNode("A", Arrays.asList(new Node("B", 5), new Node("D", 16)));
 		graph.addNode("B", Arrays.asList(new Node("D", 1), new Node("E", 3)));
 		graph.addNode("C", Arrays.asList(new Node("A", 4), new Node("D", 7)));
-		graph.addNode("D", Arrays.asList(new Node("E", 2)));
+		graph.addNode("D", Arrays.asList(new Node("E", 6)));
 		graph.addNode("E", new ArrayList<Node>());
 //		graph.printAdjList();
 
-		graph.traverseFromSource("A");			
+		graph.traverseFromSource("A", "D");			
 
 //		for(String key: graph.adjListMap.keySet()) {
 //			System.out.println("Starting Node :: "+key);
