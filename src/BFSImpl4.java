@@ -45,16 +45,20 @@ public class BFSImpl4 {
 		HashMap<String, Integer> distance = new HashMap<>();
 		HashMap<String, String> path = new HashMap<>();
 		StringBuilder pathBuilder = new StringBuilder();
-		
 		q.add(startNode);
 		distance.put(startNode, 0);
+		path.put(startNode,startNode);
+    
+    
 		while(!q.isEmpty()) {
 			System.out.println("QUEUE :: "+q);
 
 			String currNode = q.poll();
+//		  pathBuilder = new StringBuilder();
+//			pathBuilder.append(currNode);
+
 //			System.out.println("currNode :: "+currNode);
 			List<Node> adjList = adjListMap.get(currNode);			
-			pathBuilder.append(currNode).append(" ");
 
 			for(Node neighborNode : adjList) {
 
@@ -66,7 +70,7 @@ public class BFSImpl4 {
 					Integer prevDistance =  distance.get(neighborNode.node);
 					if(prevDistance != null && newDistance < prevDistance) {
 						distance.put(neighborNode.node, newDistance);
-						path.put(neighborNode.node, pathBuilder.toString());
+						pathBuilder.append(currNode);
 					}
 
 			  }
@@ -78,16 +82,23 @@ public class BFSImpl4 {
 					q.add(neighborNode.node);
 					int newDistance = distance.get(currNode) + neighborNode.cost;
 					distance.put(neighborNode.node, newDistance);
-					path.put(currNode, pathBuilder.toString());
 				}
+				
+//				pathBuilder.append(path.get(currNode));
+
+
 			}
 			
 		}
 		
-		for(Entry<String,Integer> d: distance.entrySet()) {
-//			path.get(d.getKey()) 
-			 System.out.println( d.getKey() +":"+ d.getValue()+" ");
-		}
+
+		
+		 System.out.println("path :: "+pathBuilder.toString());
+		 System.out.println(distance);
+
+//		for(Entry<String,Integer> d: distance.entrySet()) {
+//			 System.out.println( d.getKey() +":"+ d.getValue()+" "+ path.get(d.getKey()) );
+//		}
 		
 		
 	}
@@ -95,7 +106,7 @@ public class BFSImpl4 {
 	public static void main(String[] args) {
 		BFSImpl4 graph = new BFSImpl4(5, 7);
 
-		graph.addNode("A", Arrays.asList(new Node("B", 5), new Node("D", 16)));
+		graph.addNode("A", Arrays.asList(new Node("B", 5), new Node("D", 3)));
 		graph.addNode("B", Arrays.asList(new Node("D", 1), new Node("E", 3)));
 		graph.addNode("C", Arrays.asList(new Node("A", 4), new Node("D", 7)));
 		graph.addNode("D", Arrays.asList(new Node("E", 6)));
