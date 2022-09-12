@@ -37,8 +37,11 @@ public class BFSImpl4 {
 	  for(Entry<String, List<Node>> adjKeySet : adjListMap.entrySet()) {
 	  	System.out.println("key :: "+adjKeySet.getKey());
 	  	System.out.println("value :: "+ adjKeySet.getValue());
-
 	  }
+	}
+	
+	void traverseFromSource() {
+		
 	}
 
 	public static void main(String[] args) {
