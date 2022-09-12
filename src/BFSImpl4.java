@@ -43,10 +43,8 @@ public class BFSImpl4 {
 	 void traverseFromSource(String startNode) {
 		Queue<String> q = new LinkedList<>();
 		HashMap<String, Integer> distance = new HashMap<>();
-		HashMap<String, Boolean> vistedMap = new HashMap<>();
 		q.add(startNode);
 		distance.put(startNode, 0);
-		vistedMap.put(startNode, true);
 		while(!q.isEmpty()) {
 			
 			String currNode = q.poll();
@@ -55,16 +53,15 @@ public class BFSImpl4 {
 			
 			for(Node neighborNode : adjList) {
 
-				if(vistedMap.containsKey(neighborNode.node)) {
+				if(distance.containsKey(neighborNode.node)) {
 					int newDistance = distance.get(currNode) + neighborNode.cost;
 					Integer prevDistance =  distance.get(neighborNode.node);
 					if(prevDistance != null && newDistance < prevDistance) {
 						distance.put(neighborNode.node, newDistance);
 					}
 			  }
-				else if(!vistedMap.containsKey(neighborNode.node)) {
+				else if(!distance.containsKey(neighborNode.node)) {
 					q.add(neighborNode.node);
-					vistedMap.put(neighborNode.node,true);
 					int newDistance = distance.get(currNode) + neighborNode.cost;
 					distance.put(neighborNode.node, newDistance);
 				}
