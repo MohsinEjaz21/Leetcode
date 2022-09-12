@@ -40,7 +40,29 @@ public class BFSImpl4 {
 	  }
 	}
 	
-	void traverseFromSource() {
+	 void traverseFromSource(String startNode) {
+		Queue<String> q = new LinkedList<>();
+		HashMap<String, Integer> distance = new HashMap<>();
+		q.add(startNode);
+		distance.put(startNode, 0);
+		while(!q.isEmpty()) {
+			
+			String currNode = q.poll();
+//			System.out.println("currNode :: "+currNode);
+			List<Node> adjList = adjListMap.get(currNode);
+			
+			for(Node neighborNode : adjList) {
+				if(!distance.containsKey(neighborNode.node)) {
+					q.add(neighborNode.node);
+					distance.put(neighborNode.node, (distance.get(currNode) + neighborNode.cost));
+				}
+			}
+		}
+		
+		for(Entry<String,Integer> d: distance.entrySet()) {
+			 System.out.println( d.getKey() +":"+ d.getValue() );
+		}
+		
 		
 	}
 
@@ -52,8 +74,14 @@ public class BFSImpl4 {
 		graph.addNode("C", Arrays.asList(new Node("A", 4), new Node("D", 7)));
 		graph.addNode("D", Arrays.asList(new Node("E", 2)));
 		graph.addNode("E", new ArrayList<Node>());
-		graph.printAdjList();
-	  
+//		graph.printAdjList();
+
+//		graph.traverseFromSource("A");			
+
+		for(String key: graph.adjListMap.keySet()) {
+			System.out.println("Starting Node :: "+key);
+			graph.traverseFromSource(key);			
+		}
 		
 		
 
