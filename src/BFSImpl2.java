@@ -2,12 +2,12 @@ import java.io.*;
 import java.util.*;
 import java.util.LinkedList;
 
-public class BFSImpl {
+public class BFSImpl2 {
 
 	List<LinkedList<Integer>> adjList;
 	int vertexSize;
 
-	public BFSImpl(int vertexSize) {
+	public BFSImpl2(int vertexSize) {
 		this.vertexSize = vertexSize;
 		adjList = new ArrayList<>(vertexSize);
 		int i = 0;
@@ -63,7 +63,7 @@ public class BFSImpl {
 	}
 
 	public static void main(String[] args) {
-		BFSImpl graph = new BFSImpl(5);
+		BFSImpl2 graph = new BFSImpl2(5);
 
 		graph.addEdgesBothWays(0, 1);
 		graph.addEdgesBothWays(1, 2);
