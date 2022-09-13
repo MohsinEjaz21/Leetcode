@@ -41,7 +41,7 @@ public class BFSImpl4 {
 	}
 	
 	 void traverseFromSource(String startNode, String endNode) {
-		Queue<String> q = new LinkedList<>();
+	  PriorityQueue<String> q = new PriorityQueue<>();
 		HashMap<String, Integer> distance = new HashMap<>();
 		HashMap<String, String> path = new HashMap<>();
 		StringBuilder pathBuilder = new StringBuilder();

@@ -35,9 +35,7 @@ class Graph {
 		public String toString() {
 			return String.format("Node [vertex=%s, weight=%s]", vertex, weight);
 		}
-		
-		
-		
+
 	}
 
 	List<List<Edge>> adjList = null;
@@ -68,57 +66,56 @@ public class Dijesktra {
 	// Run Dijkstra’s algorithm on a given graph
 	public static void findShortestPaths(Graph graph, int source, int n) {
 		// create a min-heap and push source node having distance 0
-		PriorityQueue<Graph.Node> minHeap;
-		minHeap = new PriorityQueue<>(Comparator.comparingInt(node -> node.weight));
-		minHeap.add(new Graph.Node(source, 0));
+		PriorityQueue<Graph.Node> pq = new PriorityQueue<>(Comparator.comparingInt(node -> node.weight));
+		pq.add(new Graph.Node(source, 0));
 
 		// set initial distance from the source to `v` as infinity
-		List<Integer> dist;
-		dist = new ArrayList<>(Collections.nCopies(n, Integer.MAX_VALUE));
+		List<Integer> distance = new ArrayList<>(Collections.nCopies(n, Integer.MAX_VALUE));
 
 		// distance from the source to itself is zero
-		dist.set(source, 0);
+		distance.set(source, 0);
 
 		// boolean array to track vertices for which minimum
 		// cost is already found
-		boolean[] done = new boolean[n];
-		done[source] = true;
+		boolean[] visited = new boolean[n];
+		visited[source] = true;
 
 		// stores predecessor of a vertex (to a print path)
 		int[] prev = new int[n];
 		prev[source] = -1;
 
 		// run till min-heap is empty
-		while (!minHeap.isEmpty()) {
+		while (!pq.isEmpty()) {
 			// Remove and return the best vertex
-			Graph.Node node = minHeap.poll();
+			Graph.Node node = pq.poll();
 
 			// get the vertex number
-			int u = node.vertex;
+			int parentNode = node.vertex;
 
 			// do for each neighbor `v` of `u`
-			for (Graph.Edge edge : graph.adjList.get(u)) {
-				int v = edge.dest;
-				int weight = edge.weight;
+			for (Graph.Edge edge : graph.adjList.get(parentNode)) {
+				int adjVertex = edge.dest;
+				int newDistance = distance.get(parentNode) + edge.weight;
+				int prevDistance = distance.get(adjVertex);
 
 				// Relaxation step
-				if (!done[v] && (dist.get(u) + weight) < dist.get(v)) {
-					dist.set(v, dist.get(u) + weight);
-					prev[v] = u;
-					minHeap.add(new Graph.Node(v, dist.get(v)));
+				if (!visited[adjVertex] && newDistance < prevDistance) {
+					distance.set(adjVertex, newDistance);
+					prev[adjVertex] = parentNode;
+					pq.add(new Graph.Node(adjVertex, newDistance));
 				}
 			}
 
 			// mark vertex `u` as done so it will not get picked up again
-			done[u] = true;
+			visited[parentNode] = true;
 		}
 
 		List<Integer> route = new ArrayList<>();
 
 		for (int i = 0; i < n; i++) {
-			if (i != source && dist.get(i) != Integer.MAX_VALUE) {
+			if (i != source && distance.get(i) != Integer.MAX_VALUE) {
 				getRoute(prev, i, route);
-				System.out.printf("Path (%d —> %d): Minimum cost = %d, Route = %s\n", source, i, dist.get(i), route);
+				System.out.printf("Path (%d —> %d): Minimum cost = %d, Route = %s\n", source, i, distance.get(i), route);
 				route.clear();
 			}
 		}
@@ -136,10 +133,11 @@ public class Dijesktra {
 
 		// construct graph
 		Graph graph = new Graph(edges, n);
+		findShortestPaths(graph, 0, n);
 
 		// run the Dijkstra’s algorithm from every node
-		for (int source = 0; source < n; source++) {
-			findShortestPaths(graph, source, n);
-		}
+//		for (int source = 0; source < n; source++) {
+//			findShortestPaths(graph, source, n);
+//		}
 	}
 }
