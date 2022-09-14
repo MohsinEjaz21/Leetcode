@@ -51,22 +51,23 @@ public class BFSImpl4 {
 		distance.put(startNode.vertex, 0);
 
 		while (!q.isEmpty()) {
-			Node currNode = q.poll();
-			String parentNode = currNode.vertex;
-			List<Node> adjList = adjListMap.get(parentNode);
+			String parentVertex = q.poll().vertex;
+			List<Node> adjList = adjListMap.get(parentVertex);
 
 			for (Node neighbor : adjList) {
 				String neighborVertex = neighbor.vertex;
 				
-				int newDistance = distance.get(parentNode) + neighbor.cost;
+				int newDistance = distance.get(parentVertex) + neighbor.cost;
 				Integer prevDistance = distance.get(neighborVertex);
-				boolean isShortestPath = prevDistance != null && newDistance < prevDistance;
 
-				if (!distance.containsKey(neighborVertex) || isShortestPath) {
-					distance.put(neighbor.vertex, newDistance);
+				boolean isShortestPath = prevDistance != null && newDistance < prevDistance;
+				boolean isVisited = distance.containsKey(neighborVertex);
+
+				if (!isVisited || isShortestPath) {
+					distance.put(neighborVertex, newDistance);
 					q.add(neighbor);							
-					String prevPath = path.get(parentNode);
-					path.put(neighborVertex, (prevPath != null ? prevPath : "")+ parentNode);
+					String prevPath = path.containsKey(parentVertex) ? path.get(parentVertex) : "";
+					path.put(neighborVertex, prevPath + parentVertex);
 				}
 			}
 
