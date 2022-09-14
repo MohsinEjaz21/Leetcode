@@ -51,12 +51,7 @@ public class BFSImpl4 {
 		distance.put(startNode.node, 0);
 
 		while (!q.isEmpty()) {
-
 			Node currNode = q.poll();
-//		  pathBuilder = new StringBuilder();
-//			pathBuilder.append(currNode);
-
-//			System.out.println("currNode :: "+currNode);
 			List<Node> adjList = adjListMap.get(currNode.node);
 
 			for (Node neighborNode : adjList) {
@@ -65,26 +60,17 @@ public class BFSImpl4 {
 				boolean isShortestPath = prevDistance != null && newDistance < prevDistance;
 
 				if (!distance.containsKey(neighborNode.node) || isShortestPath) {
-//					System.out.println("=> currNode :: "+currNode);
-//					System.out.println("=> neighbourNode :: "+neighborNode.node);
-
 					distance.put(neighborNode.node, newDistance);
 					q.add(neighborNode);							
 					String prevPath = path.get(currNode.node);
 					path.put(neighborNode.node, (prevPath != null ? prevPath : "")+ currNode.node);
 				}
-
-//				pathBuilder.append(path.get(currNode));
 			}
 
 		}
 
 		System.out.println("distance : " + distance);
 		System.out.println("path : " + path);
-
-//		for(Entry<String,Integer> d: distance.entrySet()) {
-//			 System.out.println( d.getKey() +":"+ d.getValue()+" "+ path.get(d.getKey()) );
-//		}
 
 	}
 
