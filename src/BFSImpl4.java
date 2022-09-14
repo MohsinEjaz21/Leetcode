@@ -2,6 +2,8 @@ import java.util.*;
 import java.util.LinkedList;
 import java.util.Map.Entry;
 
+import com.luv2code.dijesktra.Vertex;
+
 public class BFSImpl4 {
 	HashMap<String, List<Node>> adjListMap;
 	int noOfVertices, noOfEdges;
@@ -40,48 +42,49 @@ public class BFSImpl4 {
 	  }
 	}
 	
-	 void traverseFromSource(String startNode, String endNode) {
-	  PriorityQueue<String> q = new PriorityQueue<>();
+	 void traverseFromSource(Node startNode, Node endNode) {
+	  Queue<Node> q = new PriorityQueue<>(Comparator.comparingInt(node -> node.cost));
 		HashMap<String, Integer> distance = new HashMap<>();
 		HashMap<String, String> path = new HashMap<>();
-		StringBuilder pathBuilder = new StringBuilder();
+
 		q.add(startNode);
-		distance.put(startNode, 0);
-		path.put(startNode,startNode);
+		distance.put(startNode.node, 0);
+		
     
     
 		while(!q.isEmpty()) {
-			System.out.println("QUEUE :: "+q);
 
-			String currNode = q.poll();
+			Node currNode = q.poll();
 //		  pathBuilder = new StringBuilder();
 //			pathBuilder.append(currNode);
 
 //			System.out.println("currNode :: "+currNode);
-			List<Node> adjList = adjListMap.get(currNode);			
+			List<Node> adjList = adjListMap.get(currNode.node);			
 
 			for(Node neighborNode : adjList) {
+				int newDistance = distance.get(currNode.node) + neighborNode.cost;
+				Integer prevDistance =  distance.get(neighborNode.node);
 
-				if(distance.containsKey(neighborNode.node)) {
-//					System.out.println("currNode :: "+currNode);
-//					System.out.println("neighbourNode :: "+neighborNode.node);
+				if(prevDistance != null && newDistance < prevDistance) {
+//				path.put(neighborNode.node, currNode.node + path.get(currNode.node));		
+					distance.put(neighborNode.node, newDistance);			
+					q.add(neighborNode);						
 
-					int newDistance = distance.get(currNode) + neighborNode.cost;
-					Integer prevDistance =  distance.get(neighborNode.node);
-					if(prevDistance != null && newDistance < prevDistance) {
-						distance.put(neighborNode.node, newDistance);
-						pathBuilder.append(currNode);
-					}
-
-			  }
-				else if(!distance.containsKey(neighborNode.node)) {
-					
+				}
+								
+			  if(!distance.containsKey(neighborNode.node)) {					
 //					System.out.println("=> currNode :: "+currNode);
 //					System.out.println("=> neighbourNode :: "+neighborNode.node);
 
-					q.add(neighborNode.node);
-					int newDistance = distance.get(currNode) + neighborNode.cost;
-					distance.put(neighborNode.node, newDistance);
+					distance.put(currNode.node, newDistance);			
+					q.add(neighborNode);						
+//					if(!(prevDistance != null && newDistance < prevDistance)) {
+//					}
+//					if( path.get(currNode.node) != null) {
+//						path.put(neighborNode.node, currNode.node + path.get(currNode.node));						
+//					}else {
+//						path.put(neighborNode.node, currNode.node);						
+//					}
 				}
 				
 //				pathBuilder.append(path.get(currNode));
@@ -89,12 +92,13 @@ public class BFSImpl4 {
 
 			}
 			
+
 		}
 		
 
 		
-		 System.out.println("path :: "+pathBuilder.toString());
-		 System.out.println(distance);
+		 System.out.println("distance : "+distance);
+		 System.out.println("path : "+path);
 
 //		for(Entry<String,Integer> d: distance.entrySet()) {
 //			 System.out.println( d.getKey() +":"+ d.getValue()+" "+ path.get(d.getKey()) );
@@ -102,18 +106,19 @@ public class BFSImpl4 {
 		
 		
 	}
+	 
 
 	public static void main(String[] args) {
 		BFSImpl4 graph = new BFSImpl4(5, 7);
 
-		graph.addNode("A", Arrays.asList(new Node("B", 5), new Node("D", 3)));
-		graph.addNode("B", Arrays.asList(new Node("D", 1), new Node("E", 3)));
+		graph.addNode("A", Arrays.asList(new Node("B", 5), new Node("D", 16)));
+		graph.addNode("B", Arrays.asList(new Node("D", 1), new Node("E", 4)));
 		graph.addNode("C", Arrays.asList(new Node("A", 4), new Node("D", 7)));
 		graph.addNode("D", Arrays.asList(new Node("E", 6)));
 		graph.addNode("E", new ArrayList<Node>());
 //		graph.printAdjList();
 
-		graph.traverseFromSource("A", "D");			
+		graph.traverseFromSource(new Node("A",0), new Node("D",0));			
 
 //		for(String key: graph.adjListMap.keySet()) {
 //			System.out.println("Starting Node :: "+key);
@@ -124,4 +129,5 @@ public class BFSImpl4 {
 
 //  		graph.shortestReach(1,3);
 	}
+
 }

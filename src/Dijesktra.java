@@ -56,43 +56,25 @@ class Graph {
 }
 
 public class Dijesktra {
-	private static void getRoute(int[] prev, int i, List<Integer> route) {
-		if (i >= 0) {
-			getRoute(prev, prev[i], route);
-			route.add(i);
-		}
-	}
+
 
 	// Run Dijkstra’s algorithm on a given graph
 	public static void findShortestPaths(Graph graph, int source, int n) {
 		// create a min-heap and push source node having distance 0
 		PriorityQueue<Graph.Node> pq = new PriorityQueue<>(Comparator.comparingInt(node -> node.weight));
-		pq.add(new Graph.Node(source, 0));
-
-		// set initial distance from the source to `v` as infinity
 		List<Integer> distance = new ArrayList<>(Collections.nCopies(n, Integer.MAX_VALUE));
-
-		// distance from the source to itself is zero
-		distance.set(source, 0);
-
-		// boolean array to track vertices for which minimum
-		// cost is already found
 		boolean[] visited = new boolean[n];
+		int[] pathNodes = new int[n];
+
+		pq.add(new Graph.Node(source, 0));
+		distance.set(source, 0);
 		visited[source] = true;
+		pathNodes[source] = -1;
 
-		// stores predecessor of a vertex (to a print path)
-		int[] prev = new int[n];
-		prev[source] = -1;
-
-		// run till min-heap is empty
 		while (!pq.isEmpty()) {
-			// Remove and return the best vertex
 			Graph.Node node = pq.poll();
-
-			// get the vertex number
 			int parentNode = node.vertex;
 
-			// do for each neighbor `v` of `u`
 			for (Graph.Edge edge : graph.adjList.get(parentNode)) {
 				int adjVertex = edge.dest;
 				int newDistance = distance.get(parentNode) + edge.weight;
@@ -101,7 +83,7 @@ public class Dijesktra {
 				// Relaxation step
 				if (!visited[adjVertex] && newDistance < prevDistance) {
 					distance.set(adjVertex, newDistance);
-					prev[adjVertex] = parentNode;
+					pathNodes[adjVertex] = parentNode;
 					pq.add(new Graph.Node(adjVertex, newDistance));
 				}
 			}
@@ -111,13 +93,23 @@ public class Dijesktra {
 		}
 
 		List<Integer> route = new ArrayList<>();
+		System.out.println("i :: "+pathNodes[2]);
 
+		
 		for (int i = 0; i < n; i++) {
 			if (i != source && distance.get(i) != Integer.MAX_VALUE) {
-				getRoute(prev, i, route);
+				getRoute(pathNodes, i, route);
 				System.out.printf("Path (%d —> %d): Minimum cost = %d, Route = %s\n", source, i, distance.get(i), route);
 				route.clear();
 			}
+		}
+
+	}
+	
+	private static void getRoute(int[] prev, int i, List<Integer> route) {
+		if (i >= 0) {
+			getRoute(prev, prev[i], route);
+			route.add(i);
 		}
 	}
 
