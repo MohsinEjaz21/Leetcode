@@ -71,6 +71,8 @@ public class BFSImpl4 {
 					if(prevDistance != null && newDistance < prevDistance) {
 						distance.put(neighborNode.node, newDistance);
 						pathBuilder.append(currNode);
+						q.add(neighborNode.node);
+
 					}
 
 			  }
@@ -103,25 +105,25 @@ public class BFSImpl4 {
 		
 	}
 
-	public static void main(String[] args) {
-		BFSImpl4 graph = new BFSImpl4(5, 7);
+		public static void main(String[] args) {
+			BFSImpl4 graph = new BFSImpl4(5, 7);
 
-		graph.addNode("A", Arrays.asList(new Node("B", 5), new Node("D", 3)));
-		graph.addNode("B", Arrays.asList(new Node("D", 1), new Node("E", 3)));
-		graph.addNode("C", Arrays.asList(new Node("A", 4), new Node("D", 7)));
-		graph.addNode("D", Arrays.asList(new Node("E", 6)));
-		graph.addNode("E", new ArrayList<Node>());
-//		graph.printAdjList();
+			graph.addNode("A", Arrays.asList(new Node("B", 5), new Node("D", 16)));
+			graph.addNode("B", Arrays.asList(new Node("D", 1), new Node("E", 4)));
+			graph.addNode("C", Arrays.asList(new Node("A", 4), new Node("D", 7)));
+			graph.addNode("D", Arrays.asList(new Node("E", 2)));
+			graph.addNode("E", new ArrayList<Node>());
+//			graph.printAdjList();
 
-		graph.traverseFromSource("A", "D");			
+			graph.traverseFromSource("A", "D");			
 
-//		for(String key: graph.adjListMap.keySet()) {
-//			System.out.println("Starting Node :: "+key);
-//			graph.traverseFromSource(key);			
-//		}
-		
-		
+//			for(String key: graph.adjListMap.keySet()) {
+//				System.out.println("Starting Node :: "+key);
+//				graph.traverseFromSource(key);			
+//			}
+			
+			
 
-//  		graph.shortestReach(1,3);
-	}
+//	  		graph.shortestReach(1,3);
+		}
 }
