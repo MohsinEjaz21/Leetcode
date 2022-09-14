@@ -1,8 +1,11 @@
-import java.util.*;
-import java.util.LinkedList;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map.Entry;
-
-import com.luv2code.dijesktra.Vertex;
+import java.util.PriorityQueue;
+import java.util.Queue;
 
 public class BFSImpl4 {
 	HashMap<String, List<Node>> adjListMap;
@@ -18,10 +21,10 @@ public class BFSImpl4 {
 		String vertex;
 		int cost;
 
-		public Node(String node, int cost) {
+		public Node(String vertex, int cost) {
 			super();
 			this.cost = cost;
-			this.vertex = node;
+			this.vertex = vertex;
 		}
 
 		@Override
@@ -56,8 +59,9 @@ public class BFSImpl4 {
 
 			for (Node neighbor : adjList) {
 				String neighborVertex = neighbor.vertex;
+				int neighborCost = neighbor.cost;
 				
-				int newDistance = distance.get(parentVertex) + neighbor.cost;
+				int newDistance = distance.get(parentVertex) + neighborCost;
 				Integer prevDistance = distance.get(neighborVertex);
 
 				boolean isShortestPath = prevDistance != null && newDistance < prevDistance;
@@ -66,8 +70,8 @@ public class BFSImpl4 {
 				if (!isVisited || isShortestPath) {
 					distance.put(neighborVertex, newDistance);
 					q.add(neighbor);							
-					String prevPath = path.containsKey(parentVertex) ? path.get(parentVertex) : "";
-					path.put(neighborVertex, prevPath + parentVertex);
+					String prevParentPath = path.containsKey(parentVertex) ? path.get(parentVertex) : "";
+					path.put(neighborVertex, prevParentPath + parentVertex);
 				}
 			}
 
