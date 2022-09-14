@@ -62,13 +62,14 @@ public class BFSImpl4 {
 			for (Node neighborNode : adjList) {
 				int newDistance = distance.get(currNode.node) + neighborNode.cost;
 				Integer prevDistance = distance.get(neighborNode.node);
+				boolean isShortestPath = prevDistance != null && newDistance < prevDistance;
 
-				if (!distance.containsKey(neighborNode.node) || (prevDistance != null && newDistance < prevDistance)) {
+				if (!distance.containsKey(neighborNode.node) || isShortestPath) {
 //					System.out.println("=> currNode :: "+currNode);
 //					System.out.println("=> neighbourNode :: "+neighborNode.node);
 
 					distance.put(neighborNode.node, newDistance);
-					q.add(neighborNode);						
+					q.add(neighborNode);							
 					String prevPath = path.get(currNode.node);
 					path.put(neighborNode.node, (prevPath != null ? prevPath : "")+ currNode.node);
 				}
