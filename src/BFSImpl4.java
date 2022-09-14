@@ -68,7 +68,7 @@ public class BFSImpl4 {
 //					System.out.println("=> neighbourNode :: "+neighborNode.node);
 
 					distance.put(neighborNode.node, newDistance);
-					q.add(neighborNode);
+					q.add(neighborNode);						
 					String prevPath = path.get(currNode.node);
 					path.put(neighborNode.node, (prevPath != null ? prevPath : "")+ currNode.node);
 				}
@@ -90,8 +90,8 @@ public class BFSImpl4 {
 	public static void main(String[] args) {
 		BFSImpl4 graph = new BFSImpl4(5, 7);
 
-		graph.addNode("A", Arrays.asList(new Node("B", 5), new Node("D", 16)));
-		graph.addNode("B", Arrays.asList(new Node("D", 1), new Node("E", 4)));
+		graph.addNode("A", Arrays.asList(new Node("B", 5), new Node("D", 2)));
+		graph.addNode("B", Arrays.asList(new Node("D", 1), new Node("E", 5)));
 		graph.addNode("C", Arrays.asList(new Node("A", 4), new Node("D", 7)));
 		graph.addNode("D", Arrays.asList(new Node("E", 2)));
 		graph.addNode("E", new ArrayList<Node>());
