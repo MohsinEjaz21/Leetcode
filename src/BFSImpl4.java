@@ -15,18 +15,18 @@ public class BFSImpl4 {
 	}
 
 	static class Node {
-		String node;
+		String vertex;
 		int cost;
 
 		public Node(String node, int cost) {
 			super();
 			this.cost = cost;
-			this.node = node;
+			this.vertex = node;
 		}
 
 		@Override
 		public String toString() {
-			return "Node [node=" + node + ", cost=" + cost + "]";
+			return "Node [node=" + vertex + ", cost=" + cost + "]";
 		}
 
 	}
@@ -48,22 +48,25 @@ public class BFSImpl4 {
 		HashMap<String, String> path = new HashMap<>();
 
 		q.add(startNode);
-		distance.put(startNode.node, 0);
+		distance.put(startNode.vertex, 0);
 
 		while (!q.isEmpty()) {
 			Node currNode = q.poll();
-			List<Node> adjList = adjListMap.get(currNode.node);
+			String parentNode = currNode.vertex;
+			List<Node> adjList = adjListMap.get(parentNode);
 
-			for (Node neighborNode : adjList) {
-				int newDistance = distance.get(currNode.node) + neighborNode.cost;
-				Integer prevDistance = distance.get(neighborNode.node);
+			for (Node neighbor : adjList) {
+				String neighborVertex = neighbor.vertex;
+				
+				int newDistance = distance.get(parentNode) + neighbor.cost;
+				Integer prevDistance = distance.get(neighborVertex);
 				boolean isShortestPath = prevDistance != null && newDistance < prevDistance;
 
-				if (!distance.containsKey(neighborNode.node) || isShortestPath) {
-					distance.put(neighborNode.node, newDistance);
-					q.add(neighborNode);							
-					String prevPath = path.get(currNode.node);
-					path.put(neighborNode.node, (prevPath != null ? prevPath : "")+ currNode.node);
+				if (!distance.containsKey(neighborVertex) || isShortestPath) {
+					distance.put(neighbor.vertex, newDistance);
+					q.add(neighbor);							
+					String prevPath = path.get(parentNode);
+					path.put(neighborVertex, (prevPath != null ? prevPath : "")+ parentNode);
 				}
 			}
 
