@@ -1,6 +1,8 @@
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 
 public class BST {
 
@@ -35,6 +37,28 @@ public class BST {
 		inorder(root.right,rs);
 		
 		return rs;
+	}
+	
+	public static void levelOrderTraversal(Node root) {
+		
+		Queue<Node> q = new LinkedList<>();
+		q.add(root);
+		
+		while(!q.isEmpty()) {
+			Node curr = q.poll();
+			
+      System.out.print(curr.data + " ");
+
+			
+			if(curr.left != null) {
+				q.add(curr.left);
+			}
+			
+			if(curr.right != null) {
+				q.add(curr.right);
+			}
+			
+		}
 	}
 	
 	
@@ -195,12 +219,13 @@ public class BST {
 
 		int[] keys = { 15, 10, 20, 8, 12, 16, 25 };
 		Node root = constructBST(keys);
-		List<Integer> rs = new ArrayList<>();
+//		List<Integer> rs = new ArrayList<>();
 //		System.out.println("closest :: " + findClosestIterative(root, 17).data);
 //		inorder(root);
-		rs = inorder(root, rs);
-		rs.stream().forEach(e -> System.out.print(e + " "));
-		System.out.println("isBST : "+isBST(rs));
+//		rs = inorder(root, rs);
+//		rs.stream().forEach(e -> System.out.print(e + " "));
+//		System.out.println("isBST : "+isBST(rs));
+		levelOrderTraversal(root);
 
 	}
 }
