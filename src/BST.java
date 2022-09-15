@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class BST {
 
@@ -20,6 +23,36 @@ public class BST {
 		System.out.print(root.data + " ");
 		inorder(root.right);
 	}
+	
+	public static List<Integer> inorder(Node root, List<Integer> rs) {
+		
+		if(root == null) {
+			return null;
+		}
+		
+		inorder(root.left,rs);
+		rs.add(root.data);
+		inorder(root.right,rs);
+		
+		return rs;
+	}
+	
+	
+	public static boolean isBST(List<Integer> rs){
+		if(rs == null || rs.size() == 1) {
+			return true;
+		}
+		
+		int i=0;
+		while(i < rs.size()-1) {
+			if(rs.get(i) > rs.get(i+1)) {
+				return false;
+			}
+			i++;
+		}
+		return true;
+	}
+	
 
 	public static Node insert(Node root, int data) {
 		if (root == null) {
@@ -162,9 +195,12 @@ public class BST {
 
 		int[] keys = { 15, 10, 20, 8, 12, 16, 25 };
 		Node root = constructBST(keys);
-
-		System.out.println("closest :: " + findClosestIterative(root, 17).data);
-		inorder(root);
+		List<Integer> rs = new ArrayList<>();
+//		System.out.println("closest :: " + findClosestIterative(root, 17).data);
+//		inorder(root);
+		rs = inorder(root, rs);
+		rs.stream().forEach(e -> System.out.print(e + " "));
+		System.out.println("isBST : "+isBST(rs));
 
 	}
 }
