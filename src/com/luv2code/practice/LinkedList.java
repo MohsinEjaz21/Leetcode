@@ -1,3 +1,4 @@
+package com.luv2code.practice;
 
 public class LinkedList {
 	Node head;

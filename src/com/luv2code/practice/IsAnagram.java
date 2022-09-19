@@ -1,3 +1,4 @@
+package com.luv2code.practice;
 public class IsAnagram
 {    
     //Function is to check whether two strings are anagram of each other or not.

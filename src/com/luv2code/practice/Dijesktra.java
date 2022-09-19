@@ -1,3 +1,4 @@
+package com.luv2code.practice;
 import java.util.*;
 
 // A class to store a graph edge

@@ -1,3 +1,4 @@
+package com.luv2code.practice;
 
 // Java program to print BFS traversal from a given source vertex.
 // BFS(int s) traverses vertices reachable from s.
