@@ -31,29 +31,23 @@ public class TreeHeight {
   int findDepthIterative(Node root) {
   	int heightLeft =0;
   	int heightRight=0;
-  	int height =0;
   	if(root == null) {
   		return 0;
   	}
   	Node leftNodeRef=  root.left;
   	Node rightNodeRef=  root.right;
   	
-  	while(leftNodeRef !=null) {
+  	while(leftNodeRef != null) {
   		leftNodeRef = leftNodeRef.left;
   		heightLeft++;
   	}
 
   	while(rightNodeRef !=null) {
-  		rightNodeRef = rightNodeRef.left;
+  		rightNodeRef = rightNodeRef.right;
   		heightRight++;
   	}
   	
-  	if(heightLeft < heightRight) {
-  		height = heightRight;
-  	}else {
-  		height = heightLeft;
-  	}
-  	return height;
+  	return Math.max(heightLeft, heightRight);
   }
   
 	
@@ -61,7 +55,7 @@ public class TreeHeight {
 		if(root == null) {
 		  return new Node(data);
 		}
-	  if(data < root.data) {
+	  if(data <= root.data) {
 			root.left = insertNode(root.left, data);
 		}else {
 			root.right = insertNode(root.right,data);
@@ -77,8 +71,13 @@ public class TreeHeight {
 		return root;
 	}
 	
+//	  15
+//	10  20
+//8   12 16 25
+
+	
 	public static void main(String[] args) {
-		int[] nodes = { 15, 10, 20, 8, 12, 16, 25 , 30};
+		int[] nodes = { 15, 10, 20, 8, 12, 16, 25};
 		Node root = instance.insertNode(nodes);
 		System.out.println("depth : "+instance.findDepthIterative(root));
 		System.out.print(root);

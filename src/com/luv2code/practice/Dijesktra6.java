@@ -10,11 +10,11 @@ import java.util.Map.Entry;
 import java.util.PriorityQueue;
 import java.util.Queue;
 
-public class BFSImpl4 {
+public class Dijesktra6 {
 	HashMap<String, List<Node>> adjListMap;
 	int noOfVertices, noOfEdges;
 
-	public BFSImpl4(int noOfVertices, int noOfEdges) {
+	public Dijesktra6(int noOfVertices, int noOfEdges) {
 		this.noOfVertices = noOfVertices;
 		this.noOfEdges = noOfEdges;
 		adjListMap = new HashMap<>();
@@ -52,7 +52,7 @@ public class BFSImpl4 {
 		Queue<Node> q = new PriorityQueue<>(Comparator.comparingInt(node -> node.cost));
 		HashMap<String, Integer> distance = new HashMap<>();
 		HashMap<String, String> path = new HashMap<>();
- 
+		
 		q.add(startNode);
 		distance.put(startNode.vertex, 0);
 
@@ -66,7 +66,7 @@ public class BFSImpl4 {
 				
 				int newDistance = distance.get(parentVertex) + neighborCost;
 				Integer prevDistance = distance.get(neighborVertex);
-
+ 
 				boolean isShortestPath = prevDistance != null && newDistance < prevDistance;
 				boolean isVisited = distance.containsKey(neighborVertex);
 
@@ -86,22 +86,14 @@ public class BFSImpl4 {
 	}
 
 	public static void main(String[] args) {
-		BFSImpl4 graph = new BFSImpl4(5, 7);
+		Dijesktra6 graph = new Dijesktra6(5, 7);
 
 		graph.addNode("A", Arrays.asList(new Node("B", 5), new Node("D", 2)));
 		graph.addNode("B", Arrays.asList(new Node("D", 1), new Node("E", 5)));
 		graph.addNode("C", Arrays.asList(new Node("A", 4), new Node("D", 7)));
 		graph.addNode("D", Arrays.asList(new Node("E", 2)));
 		graph.addNode("E", new ArrayList<Node>());
-//		graph.printAdjList();
-
 		graph.traverseFromSource(new Node("A", 0), new Node("D", 0));
-//		for(String key: graph.adjListMap.keySet()) {
-//			System.out.println("Starting Node :: "+key);
-//			graph.traverseFromSource(key);			
-//		}
-
-//  		graph.shortestReach(1,3);
 	}
 
 }
